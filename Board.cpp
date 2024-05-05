@@ -1,3 +1,5 @@
+// Copyright (2024)
+
 #include "Board.hpp"
 
 
@@ -23,7 +25,7 @@
 //                 case BB: return moveB(x, y, dX, dY);
 //                 default: return false;
 //         }
-//     }  
+//     }
 // }
 
 std::ostream& operator<<(std::ostream& out, Board &b) {
@@ -59,8 +61,93 @@ void Board::debugMove(int row, int col, int dX, int dY) {
     board[row][col] = NO;
 }
 
-void Board::check() {
+bool Board::checkIf(int row, int col, bool player) {
+    // Check Pawn Locations
+    std::pair<int, int> diagtl = std::make_pair(-1, -1);
+    std::pair<int, int> diagtr = std::make_pair(-1, -1);
+    std::pair<int, int> diagbl = std::make_pair(-1, -1);
+    std::pair<int, int> diagbr = std::make_pair(-1, -1);
+
+    if (row != 0 && col != 0) diagtl = std::make_pair(row - 1, col - 1);
+    if (row != 0 && col != 7) diagtr = std::make_pair(row - 1, col + 1);
+    if (row != 7 && col != 0) diagbl = std::make_pair(row + 1, col - 1);
+    if (row != 7 && col != 7) diagbr = std::make_pair(row + 1, col + 1);
+
+    std::vector<std::pair<int, int>> posArray;
+    posArray.push_back(diagtl); posArray.push_back(diagtr);
+    posArray.push_back(diagbl); posArray.push_back(diagbr);
+
+    for (unsigned int i = 0; i < posArray.size(); i++) {
+        std::cout << posArray[i].first << " " << posArray[i].second << std::endl;
+    }
+
+    for (unsigned int i = 0; i < posArray.size(); i++) {
+        if (posArray[i].first != -1) {
+            switch (board[posArray[i].first][posArray[i].second]) {
+                case WP:
+                    switch (player) {
+                        case true: break;
+                        default: return true;
+                    }
+                    break;
+                case BP:
+                    switch (player) {
+                        case false: break;
+                        default: return true;
+                    }
+                    break;
+                default:
+                    break;
+            }
+        }
+    }
+
+    // Check King Locations
+
+    // Check Knight Locations
+
+    // Check Queen, Rook, Bishop Locations
+
+    bool checkQ = false;
+
+    switch (player) {
+        case true:
+            for (int i = col - 1; i >= 0; i--) {
+                switch (board[row][i]) {
+                    case NO:
+                        break;
+                    default:
+                        if (board[row][i] < 5) break;
+                        if (board[row][i] == BQ || board[row][i] == BR) checkQ = true;
+                        break;
+                } 
+            }
+
+            for (int i = col + 1; i < 8; i++) {
+                switch (board[row][i]) {
+                    case NO:
+                        break;
+                    default:
+                        if (board[row][i] < 5) break;
+                        checkQ = true;
+                        break;
+                }   
+            }
+
+            for (int i = 0; i < row; i++) {
+                
+            }
+
+        case false:
+
+        default:
+            break;
+    }
+
     
+
+
+    return false;
 }
 
 // bool Board::moveP(int x, int y, int dX, int dY) {
@@ -88,4 +175,5 @@ void Board::check() {
 // bool Board::moveB(int x, int y, int dX, int dY) {
 //     return false;
 // }
-        
+
+
