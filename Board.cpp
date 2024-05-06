@@ -54,7 +54,6 @@ std::ostream& operator<<(std::ostream& out, Board &b) {
             } else {
                 out << " " << " ";
             }
-            
         }
         out << std::endl;
     }
@@ -76,7 +75,7 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
         std::cout << "RL-Branch NOT Taken" << std::endl;
         return false;
     }
-    
+
     // Check for Left Linear Obstruction
     if (changeRow == 0 && changeCol < 0) {
         for (int i = col - 1; i > dCol; i--) {
@@ -88,7 +87,7 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
         std::cout << "LL-Branch NOT Taken" << std::endl;
         return false;
     }
-    
+
     // Check for Up Linear Obstruction
     if (changeCol == 0 && changeRow > 0) {
         for (int i = row - 1; i > dRow; i--) {
@@ -105,18 +104,51 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
         return false;
     }
 
-    
-    // if (abs(changeRow/changeCol) != 1) {
-    //     return false;
-    // }
-
-    return false;
+    if (abs(changeRow/changeCol) != 1) {
+        return false;
+    }
 
     // Check for Top-Right Diagonal Obstruction
+    if (changeRow < 0 && changeCol > 0) {
+        int i = row - 1;
+        int j = col + 1;
+        while (i > dRow && j < dCol) {
+            if (_board[i--][j++] != nullptr) return true;
+        }
+        return false;
+    }
 
     // Check for Top-Left Diagonal Obstruction
+    if (changeRow < 0 && changeCol < 0) {
+        int i = row - 1;
+        int j = col - 1;
+        while (i > dRow && j > dCol) {
+            if (_board[i--][j--] != nullptr) return true;
+        }
+        return false;
+    }
 
     // Check for Bottom-Left Diagonal Obstruction
+    if (changeRow > 0 && changeCol < 0) {
+        int i = row + 1;
+        int j = col - 1;
+        while (i < dRow && j > dCol) {
+            if (_board[i++][j--] != nullptr) return true;
+        }
+        return false;
+    }
 
     // Check for Bottom-Right Diagonal Obstruction
+    if (changeRow > 0 && changeCol > 0) {
+        int i = row + 1;
+        int j = col + 1;
+        while (i < dRow && j < dCol) {
+            if (_board[i++][j++] != nullptr) return true;
+        }
+        return false;
+    }
+
+    return false;
 }
+
+

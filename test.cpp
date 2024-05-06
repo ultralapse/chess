@@ -38,7 +38,14 @@ BOOST_AUTO_TEST_CASE(obstructDiagonal) {
     Board b;
     b.write(6, 4, new Pawn(White));
     std::cout << b.get(6, 4)->id() << std::endl;
-    bool result = b.obstruction(5, 3, 7, 5);
 
+    bool result = b.obstruction(5, 3, 7, 5);
+    BOOST_CHECK_EQUAL(result, true);
+    result = b.obstruction(7, 5, 4, 2);
+    BOOST_CHECK_EQUAL(result, true);
+
+    result = b.obstruction(5, 5, 7, 3);
     BOOST_CHECK_EQUAL(result, true);
 }
+
+

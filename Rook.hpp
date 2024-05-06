@@ -4,7 +4,7 @@
 
 class Rook: public Piece {
  public:
-    Rook(pcolor color) {
+    explicit Rook(pcolor color) {
         setColor(color);
         setType(R);
     }

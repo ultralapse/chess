@@ -13,7 +13,7 @@ class Game {
     Game() {}
 
     Board& getBoard() {return b;}
-    
+
     // Checks if a multisquare diagonal or straight line move is obstructed.
     bool obstruction(int row, int col, int dRow, int dCol);
 

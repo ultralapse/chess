@@ -4,8 +4,9 @@
 
 class Pawn: public Piece {
  public:
-    Pawn(pcolor color) {
+    explicit Pawn(pcolor color) {
         setColor(color);
         setType(P);
     }
 };
+

@@ -4,7 +4,7 @@
 
 class Knight: public Piece {
  public:
-    Knight(pcolor color) {
+    explicit Knight(pcolor color) {
         setColor(color);
         setType(N);
     }

@@ -3,8 +3,9 @@
 
 class King: public Piece {
  public:
-    King(pcolor color) {
+    explicit King(pcolor color) {
         setColor(color);
         setType(K);
     }
 };
+

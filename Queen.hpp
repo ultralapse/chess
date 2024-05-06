@@ -4,7 +4,7 @@
 
 class Queen: public Piece {
  public:
-    Queen(pcolor color) {
+    explicit Queen(pcolor color) {
         setColor(color);
         setType(Q);
     }
