@@ -1,7 +1,7 @@
 CC = g++
 CFLAGS = --std=c++17 -Wall -Werror -pedantic -g -O3
 LIB = -lboost_unit_test_framework
-DEPS = Board.hpp
+DEPS = Game.hpp Board.hpp Rook.hpp Knight.hpp Pawn.hpp Queen.hpp Piece.hpp King.hpp
 OBJECTS = $(DEPS:.hpp=.o)
 PROGRAM = Chess
 
