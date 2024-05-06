@@ -2,178 +2,153 @@
 
 #include "Board.hpp"
 
+Board::Board() {
+    _board = std::vector<std::vector<Piece *>>(8, std::vector<Piece *>(8));
+    for (int i = 0; i < 8; i++) {
+        _board[6][i] = new Pawn(White);
+    }
 
-// bool Board::move(int x, int y, int dX, int dY) {
-//     switch (turn) {
-//         case true:
-//             switch (board.at(x).at(y)) {
-//                 case WP: return moveP(x, y, dX, dY);
-//                 case WH: return moveH(x, y, dX, dY);
-//                 case WR: return moveR(x, y, dX, dY);
-//                 case WQ: return moveQ(x, y, dX, dY);
-//                 case WK: return moveK(x, y, dX, dY);
-//                 case WB: return moveB(x, y, dX, dY);
-//                 default: return false;
-//             }
-//         case false:
-//             switch (board.at(x).at(y)){
-//                 case BP: return moveP(x, y, dX, dY);
-//                 case BH: return moveH(x, y, dX, dY);
-//                 case BR: return moveR(x, y, dX, dY);
-//                 case BQ: return moveQ(x, y, dX, dY);
-//                 case BK: return moveK(x, y, dX, dY);
-//                 case BB: return moveB(x, y, dX, dY);
-//                 default: return false;
-//         }
-//     }
-// }
+    for (int i = 0; i < 8; i++) {
+        _board[1][i] = new Pawn(Black);
+    }
+
+    _board[0][0] = new Rook(Black);
+    _board[0][1] = new Knight(Black);
+    _board[0][2] = new Bishop(Black);
+    _board[0][3] = new Queen(Black);
+    _board[0][4] = new King(Black);
+    _board[0][5] = new Bishop(Black);
+    _board[0][6] = new Knight(Black);
+    _board[0][7] = new Rook(Black);
+
+    _board[7][0] = new Rook(White);
+    _board[7][1] = new Knight(White);
+    _board[7][2] = new Bishop(White);
+    _board[7][3] = new Queen(White);
+    _board[7][4] = new King(White);
+    _board[7][5] = new Bishop(White);
+    _board[7][6] = new Knight(White);
+    _board[7][7] = new Rook(White);
+}
+
+void Board::write(int row, int col, Piece* p) {
+    _board[row][col] = p;
+}
+
+void Board::move(int row, int col, int dRow, int dCol) {
+    if (_board[dRow][dCol] != nullptr) {
+        switch (_board[row][col]->color()) {
+            case White: _wjail.push_back(_board[dRow][dCol]);
+            case Black: _bjail.push_back(_board[dRow][dCol]);
+        }
+    }
+    _board[dRow][dCol] = _board[row][col];
+    _board[row][col] = nullptr;
+}
 
 std::ostream& operator<<(std::ostream& out, Board &b) {
-    for (unsigned int i = 0; i < b.board.size(); i++) {
-        for (unsigned int j = 0; j < b.board[0].size(); j++) {
-            switch (b.board[i][j]) {
-                case WP: out << "♙"; break;
-                case WH: out << "♘"; break;
-                case WR: out << "♖"; break;
-                case WQ: out << "♕"; break;
-                case WK: out << "♔"; break;
-                case WB: out << "♗"; break;
-                case BP: out << "♟"; break;
-                case BH: out << "♞"; break;
-                case BR: out << "♜"; break;
-                case BQ: out << "♛"; break;
-                case BK: out << "♚"; break;
-                case BB: out << "♝"; break;
-                default: out << " "; break;
+    for (unsigned int i = 0; i < 8; i++) {
+        for (unsigned int j = 0; j < 8; j++) {
+            if (b._board[i][j] != nullptr) {
+                out << b._board[i][j]->id() << " ";
+            } else {
+                out << " " << " ";
             }
         }
-        out << "\n";
+        out << std::endl;
     }
     return out;
 }
 
-void Board::override(int row, int col, Piece p) {
-    board[row][col] = p;
-}
+bool Board::obstruction(int row, int col, int dRow, int dCol) {
+    int changeRow = dRow - row;
+    int changeCol = dCol - col;
 
-void Board::debugMove(int row, int col, int dX, int dY) {
-    board[dX][dY] = board[row][col];
-    board[row][col] = NO;
-}
-
-bool Board::checkIf(int row, int col, bool player) {
-    // Check Pawn Locations
-    std::pair<int, int> diagtl = std::make_pair(-1, -1);
-    std::pair<int, int> diagtr = std::make_pair(-1, -1);
-    std::pair<int, int> diagbl = std::make_pair(-1, -1);
-    std::pair<int, int> diagbr = std::make_pair(-1, -1);
-
-    if (row != 0 && col != 0) diagtl = std::make_pair(row - 1, col - 1);
-    if (row != 0 && col != 7) diagtr = std::make_pair(row - 1, col + 1);
-    if (row != 7 && col != 0) diagbl = std::make_pair(row + 1, col - 1);
-    if (row != 7 && col != 7) diagbr = std::make_pair(row + 1, col + 1);
-
-    std::vector<std::pair<int, int>> posArray;
-    posArray.push_back(diagtl); posArray.push_back(diagtr);
-    posArray.push_back(diagbl); posArray.push_back(diagbr);
-
-    for (unsigned int i = 0; i < posArray.size(); i++) {
-        std::cout << posArray[i].first << " " << posArray[i].second << std::endl;
-    }
-
-    for (unsigned int i = 0; i < posArray.size(); i++) {
-        if (posArray[i].first != -1) {
-            switch (board[posArray[i].first][posArray[i].second]) {
-                case WP:
-                    switch (player) {
-                        case true: break;
-                        default: return true;
-                    }
-                    break;
-                case BP:
-                    switch (player) {
-                        case false: break;
-                        default: return true;
-                    }
-                    break;
-                default:
-                    break;
+    // Check for Right Linear Obstruction
+    if (changeRow == 0 && changeCol > 0) {
+        for (int i = col + 1; i < dCol; i++) {
+            if (_board[row][i] != nullptr) {
+                std::cout << "RL-Branch Taken" << std::endl;
+                return true;
             }
         }
+        std::cout << "RL-Branch NOT Taken" << std::endl;
+        return false;
     }
 
-    // Check King Locations
-
-    // Check Knight Locations
-
-    // Check Queen, Rook, Bishop Locations
-
-    bool checkQ = false;
-
-    switch (player) {
-        case true:
-            for (int i = col - 1; i >= 0; i--) {
-                switch (board[row][i]) {
-                    case NO:
-                        break;
-                    default:
-                        if (board[row][i] < 5) break;
-                        if (board[row][i] == BQ || board[row][i] == BR) checkQ = true;
-                        break;
-                } 
+    // Check for Left Linear Obstruction
+    if (changeRow == 0 && changeCol < 0) {
+        for (int i = col - 1; i > dCol; i--) {
+            if (_board[row][i] != nullptr) {
+                std::cout << "LL-Branch Taken" << std::endl;
+                return true;
             }
-
-            for (int i = col + 1; i < 8; i++) {
-                switch (board[row][i]) {
-                    case NO:
-                        break;
-                    default:
-                        if (board[row][i] < 5) break;
-                        checkQ = true;
-                        break;
-                }   
-            }
-
-            for (int i = 0; i < row; i++) {
-                
-            }
-
-        case false:
-
-        default:
-            break;
+        }
+        std::cout << "LL-Branch NOT Taken" << std::endl;
+        return false;
     }
 
-    
+    // Check for Up Linear Obstruction
+    if (changeCol == 0 && changeRow > 0) {
+        for (int i = row - 1; i > dRow; i--) {
+            if (_board[i][col] != nullptr) return true;
+        }
+        return false;
+    }
 
+    // Check for Down Linear Obstruction
+    if (changeCol == 0 && changeRow < 0) {
+        for (int i = row + 1; i < dRow; i++) {
+            if (_board[i][col] != nullptr) return true;
+        }
+        return false;
+    }
+
+    if (abs(changeRow/changeCol) != 1) {
+        return false;
+    }
+
+    // Check for Top-Right Diagonal Obstruction
+    if (changeRow < 0 && changeCol > 0) {
+        int i = row - 1;
+        int j = col + 1;
+        while (i > dRow && j < dCol) {
+            if (_board[i--][j++] != nullptr) return true;
+        }
+        return false;
+    }
+
+    // Check for Top-Left Diagonal Obstruction
+    if (changeRow < 0 && changeCol < 0) {
+        int i = row - 1;
+        int j = col - 1;
+        while (i > dRow && j > dCol) {
+            if (_board[i--][j--] != nullptr) return true;
+        }
+        return false;
+    }
+
+    // Check for Bottom-Left Diagonal Obstruction
+    if (changeRow > 0 && changeCol < 0) {
+        int i = row + 1;
+        int j = col - 1;
+        while (i < dRow && j > dCol) {
+            if (_board[i++][j--] != nullptr) return true;
+        }
+        return false;
+    }
+
+    // Check for Bottom-Right Diagonal Obstruction
+    if (changeRow > 0 && changeCol > 0) {
+        int i = row + 1;
+        int j = col + 1;
+        while (i < dRow && j < dCol) {
+            if (_board[i++][j++] != nullptr) return true;
+        }
+        return false;
+    }
 
     return false;
 }
-
-// bool Board::moveP(int x, int y, int dX, int dY) {
-//     // Possible positions by rulebook
-//     if (dY != y || dX != x + 1){
-//         if (dY != y+1) return false;
-//     }
-
-//     Piece p = board[x][y];
-
-//     return true;
-// }
-// bool Board::moveH(int x, int y, int dX, int dY) {
-//     return false;
-// }
-// bool Board::moveR(int x, int y, int dX, int dY) {
-//     return false;
-// }
-// bool Board::moveQ(int x, int y, int dX, int dY) {
-//     return false;
-// }
-// bool Board::moveK(int x, int y, int dX, int dY) {
-//     return false;
-// }
-// bool Board::moveB(int x, int y, int dX, int dY) {
-//     return false;
-// }
 
 
