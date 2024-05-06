@@ -13,14 +13,32 @@
 
 
 // Test Check
-BOOST_AUTO_TEST_CASE(testCost) {
-    // Board b;
-    // b.override(0, 0, WP);
-    // std::cout << b << std::endl;
-    // BOOST_CHECK_EQUAL(b.checkIf(1, 1, false), true);
+BOOST_AUTO_TEST_CASE(obstructLinear) {
+    Board b;
+    b.write(5, 5, new Pawn(White));
+    std::cout << b.get(5, 5)->id() << std::endl;
+    bool result = b.obstruction(5, 1, 5, 7);
 
-    // Board c;
-    // b.override(1, 1, BP);
-    // std::cout << c << std::endl;
-    // BOOST_CHECK_EQUAL(b.checkIf(0, 0, true), true);
+    BOOST_CHECK_EQUAL(result, true);
+
+    result = b.obstruction(5, 7, 5, 1);
+
+    BOOST_CHECK_EQUAL(result, true);
+
+    result = b.obstruction(5, 1, 5, 2);
+
+    BOOST_CHECK_EQUAL(result, false);
+
+    result = b.obstruction(5, 2, 5, 1);
+
+    BOOST_CHECK_EQUAL(result, false);
+}
+
+BOOST_AUTO_TEST_CASE(obstructDiagonal) {
+    Board b;
+    b.write(6, 4, new Pawn(White));
+    std::cout << b.get(6, 4)->id() << std::endl;
+    bool result = b.obstruction(5, 3, 7, 5);
+
+    BOOST_CHECK_EQUAL(result, true);
 }
