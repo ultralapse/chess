@@ -68,6 +68,13 @@ BOOST_AUTO_TEST_CASE(RookMovement) {
     BOOST_CHECK_EQUAL(b.move(4, 4, 5, 5), false);
 
     std::cout << b << std::endl;
+
+    Board c;
+    c.clear();
+    c.write(4, 4, new Rook(Black));
+    b.move(4, 4, 7, 4);
+
+    BOOST_CHECK_EQUAL(b.get(7, 4)->type(), R);
 }
 
 
