@@ -48,4 +48,11 @@ BOOST_AUTO_TEST_CASE(obstructDiagonal) {
     BOOST_CHECK_EQUAL(result, true);
 }
 
+BOOST_AUTO_TEST_CASE(queenMovement) {
+    Board b;
+    b.write(4, 4, new Queen(White));
+    bool result = b.get(4, 4)->move(4, 4, 3, 2);
+    BOOST_CHECK_EQUAL(result, false);
+}
+
 
