@@ -1,14 +1,16 @@
 // Copyright (2024)
 
+#pragma once
 #include <iostream>
 #include <vector>
-#include "Piece.hpp"
-#include "Pawn.hpp"
-#include "Rook.hpp"
-#include "Knight.hpp"
-#include "Queen.hpp"
-#include "Bishop.hpp"
-#include "King.hpp"
+
+#include "pieces/Piece.hpp"
+#include "pieces/Pawn.hpp"
+#include "pieces/Rook.hpp"
+#include "pieces/Bishop.hpp"
+#include "pieces/Knight.hpp"
+#include "pieces/Queen.hpp"
+#include "pieces/King.hpp"
 
 class Board {
  private:
