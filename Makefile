@@ -35,5 +35,5 @@ clean:
 	rm *.o $(PROGRAM) test
 
 lint:
-	cpplint *.hpp *.cpp
+	find . -name "*.hpp" -o -name "*.cpp" | xargs cpplint
 

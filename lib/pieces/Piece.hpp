@@ -1,8 +1,6 @@
 // Copyright (2024) Alvin Yu
 
-#ifndef PIECE_HPP
-#define PIECE_HPP
-
+#pragma once
 #include <string>
 
 enum ptype {
@@ -26,6 +24,5 @@ class Piece {
     // virtual bool move(int row, int col, int dRow, int dCol) = 0;
 };
 
-#endif
 
 

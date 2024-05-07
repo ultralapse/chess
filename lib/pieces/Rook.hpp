@@ -1,5 +1,6 @@
 // Copyright (2024) Alvin Yu
 
+#pragma once
 #include "Piece.hpp"
 
 class Rook: public Piece {
