@@ -1,7 +1,7 @@
 // Copyright (2024) Alvin Yu
 
 #pragma once
-#include "Board.hpp"
+#include "lib/Board.hpp"
 
 class Game {
     Board b;
