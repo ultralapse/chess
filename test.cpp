@@ -53,6 +53,21 @@ BOOST_AUTO_TEST_CASE(queenMovement) {
     b.write(4, 4, new Queen(White));
     bool result = b.get(4, 4)->move(4, 4, 3, 2);
     BOOST_CHECK_EQUAL(result, false);
+    std::cout << b << std::endl;
+
+    b.move(4, 4, 5, 5);
+    std::cout << b << std::endl;
+    BOOST_CHECK_EQUAL(b.get(5, 5)->type(), Q);
+}
+
+BOOST_AUTO_TEST_CASE(RookMovement) {
+    Board b;
+    b.clear();
+
+    b.write(4, 4, new Rook(Black));
+    BOOST_CHECK_EQUAL(b.move(4, 4, 5, 5), false);
+
+    std::cout << b << std::endl;
 }
 
 

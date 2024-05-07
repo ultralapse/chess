@@ -35,15 +35,39 @@ void Board::write(int row, int col, Piece* p) {
     _board[row][col] = p;
 }
 
-void Board::move(int row, int col, int dRow, int dCol) {
+bool Board::move(int row, int col, int dRow, int dCol) {
+    std::cout << "Function has been entered" << std::endl;
     if (_board[dRow][dCol] != nullptr) {
-        switch (_board[row][col]->color()) {
-            case White: _wjail.push_back(_board[dRow][dCol]);
-            case Black: _bjail.push_back(_board[dRow][dCol]);
+        pcolor curColor = _board[row][col]->color();
+        pcolor destColor = _board[dRow][dCol]->color();
+
+        if (curColor == destColor) {
+            std::cout << "Illegal Move" << std::endl;
+            return false;
         }
+
+        if (!_board[row][col]->move(row, col, dRow, dCol)) {
+            return false;
+        }
+        // switch (curColor) {
+        //     case White:
+        //         _wjail.push_back(_board[dRow][dCol]);
+        //     default:
+        //         _bjail.push_back(_board[dRow][dCol]);
+        // }
     }
+
+    if (obstruction(row, col, dRow, dCol)) {
+        return false;
+    }
+
+    if (!_board[row][col]->move(row, col, dRow, dCol)) {
+        return false;
+    }
+
     _board[dRow][dCol] = _board[row][col];
     _board[row][col] = nullptr;
+    return true;
 }
 
 std::ostream& operator<<(std::ostream& out, Board &b) {
@@ -151,4 +175,10 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
     return false;
 }
 
-
+void Board::clear() {
+    for (unsigned int i = 0; i < _board.size(); i++) {
+        for (unsigned int j = 0; j < _board.size(); j++) {
+            _board[i][j] = nullptr;
+        }
+    }
+}

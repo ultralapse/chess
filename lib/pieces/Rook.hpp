@@ -9,5 +9,6 @@ class Rook: public Piece {
         setColor(color);
         setType(R);
     }
+    virtual bool move(int row, int col, int dRow, int dCol);
 };
 
