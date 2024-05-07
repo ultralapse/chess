@@ -1,6 +1,5 @@
 .vscode/
 *.o
 *.a
-CPPLINT.cfg
 Chess
 test
