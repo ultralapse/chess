@@ -5,7 +5,7 @@
 #include <fstream>
 #include <sstream>
 
-#include "Board.hpp"
+#include "lib/Board.hpp"
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Main

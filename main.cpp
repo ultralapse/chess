@@ -1,7 +1,7 @@
 // Copyright (2024)
 
 #include <iostream>
-#include "Board.hpp"
+#include "lib/Board.hpp"
 
 int main() {
     Board b;
