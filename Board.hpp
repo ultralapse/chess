@@ -1,5 +1,6 @@
 // Copyright (2024)
 
+#pragma once
 #include <iostream>
 #include <vector>
 
