@@ -36,7 +36,12 @@ void Board::write(int row, int col, Piece* p) {
 }
 
 bool Board::move(int row, int col, int dRow, int dCol) {
-    std::cout << "Function has been entered" << std::endl;
+    // std::cout << "Function has been entered" << std::endl;
+    if (row > 7 || row < 0 || col > 7 || col < 0 ||
+        dRow > 7 || dRow < 0 || dCol > 7 || dCol < 0) {
+        return false;
+    }
+
     if (_board[dRow][dCol] != nullptr) {
         pcolor curColor = _board[row][col]->color();
         pcolor destColor = _board[dRow][dCol]->color();
@@ -49,12 +54,12 @@ bool Board::move(int row, int col, int dRow, int dCol) {
         if (!_board[row][col]->move(row, col, dRow, dCol)) {
             return false;
         }
-        // switch (curColor) {
-        //     case White:
-        //         _wjail.push_back(_board[dRow][dCol]);
-        //     default:
-        //         _bjail.push_back(_board[dRow][dCol]);
-        // }
+        switch (curColor) {
+            case White:
+                _wjail.push_back(_board[dRow][dCol]);
+            default:
+                _bjail.push_back(_board[dRow][dCol]);
+        }
     }
 
     if (obstruction(row, col, dRow, dCol)) {
@@ -92,11 +97,11 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
     if (changeRow == 0 && changeCol > 0) {
         for (int i = col + 1; i < dCol; i++) {
             if (_board[row][i] != nullptr) {
-                std::cout << "RL-Branch Taken" << std::endl;
+                // std::cout << "RL-Branch Taken" << std::endl;
                 return true;
             }
         }
-        std::cout << "RL-Branch NOT Taken" << std::endl;
+        // std::cout << "RL-Branch NOT Taken" << std::endl;
         return false;
     }
 
@@ -104,11 +109,11 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
     if (changeRow == 0 && changeCol < 0) {
         for (int i = col - 1; i > dCol; i--) {
             if (_board[row][i] != nullptr) {
-                std::cout << "LL-Branch Taken" << std::endl;
+                // std::cout << "LL-Branch Taken" << std::endl;
                 return true;
             }
         }
-        std::cout << "LL-Branch NOT Taken" << std::endl;
+        // std::cout << "LL-Branch NOT Taken" << std::endl;
         return false;
     }
 

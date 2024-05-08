@@ -9,5 +9,7 @@ class Pawn: public Piece {
         setColor(color);
         setType(P);
     }
+    virtual bool move(int row, int col, int dRow, int dCol,
+                      std::vector<std::vector<Piece *>> board);
 };
 

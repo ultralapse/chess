@@ -29,6 +29,9 @@ class Board {
     // Indexing function
     Piece* get(int row, int col) {return _board[row][col];}
 
+    Piece* getWhiteCapture(int index) {return _wjail[index];}
+    Piece* getBlackCapture(int index) {return _bjail[index];}
+
     void set(int row, int col, Piece *p) {_board[row][col] = p;}
 
     // Function that unconditionally writes to a square
