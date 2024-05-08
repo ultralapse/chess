@@ -29,7 +29,7 @@ class Board {
     // Indexing function
     Piece* get(int row, int col) {return _board[row][col];}
 
-    void set(int row, int col, Piece *p){_board[row][col] = p;}
+    void set(int row, int col, Piece *p) {_board[row][col] = p;}
 
     // Function that unconditionally writes to a square
     void write(int row, int col, Piece *p);
