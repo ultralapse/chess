@@ -5,6 +5,7 @@
 #include <fstream>
 #include <sstream>
 
+#include "Game.hpp"
 #include "lib/Board.hpp"
 
 #define BOOST_TEST_DYN_LINK
@@ -77,4 +78,9 @@ BOOST_AUTO_TEST_CASE(RookMovement) {
     BOOST_CHECK_EQUAL(b.get(7, 4)->type(), R);
 }
 
+BOOST_AUTO_TEST_CASE(testSaving) {
+    Game g("board.txt");
+    g.load();
+    std::cout << g.getBoard() << std::endl;
+}
 
