@@ -62,25 +62,42 @@ BOOST_AUTO_TEST_CASE(queenMovement) {
 }
 
 BOOST_AUTO_TEST_CASE(RookMovement) {
+    std::cout << "===================================" << std::endl;
+    std::cout << "Testing Rook Movement" << std::endl;
+    // Initialize a Board and clear the default configuration
     Board b;
     b.clear();
 
-    b.write(4, 4, new Rook(Black));
-    BOOST_CHECK_EQUAL(b.move(4, 4, 5, 5), false);
+    // The Rook should be initialized to Row index 3, column index 3
+    b.write(3, 3, new Rook(White));
 
-    std::cout << b << std::endl;
+    // Initialize Enemy Queen to (3, 0)
+    b.write(3, 0, new Queen(Black));
 
-    Board c;
-    c.clear();
-    c.write(4, 4, new Rook(Black));
-    b.move(4, 4, 7, 4);
+    // Initialize Friendly Queen to (7, 3)
+    b.write(7, 3, new Queen(White));
 
-    BOOST_CHECK_EQUAL(b.get(7, 4)->type(), R);
+    // Illegally move the Rook
+    BOOST_CHECK_EQUAL(b.move(3, 3, 5, 7), false);
+
+    // Move the Rook to Enemy Queen Square. Expect a capture.
+    BOOST_CHECK_EQUAL(b.move(3, 3, 3, 0), true);
+    BOOST_CHECK_EQUAL(b.getWhiteCapture(0)->type(), Q);
+
+    // New Rook Position is (3, 0)
+    // Now Move it to (0, 0)
+    BOOST_CHECK_EQUAL(b.move(3, 0, 0, 0), true);
+
+    // Illegally move past bounds of the board
+    BOOST_CHECK_EQUAL(b.move(0, 0, -1, -1), false);
+
+    b.move(0, 0, 3, 0);
+    b.move(3, 0, 3, 3);
+
+    // Do not capture your own troops
+    BOOST_CHECK_EQUAL(b.move(3, 3, 7, 3), false);
+
+    // Obstruction testing
+    b.write(3, 1, new Pawn(White));
+    BOOST_CHECK_EQUAL(b.move(3, 3, 3, 0), false);
 }
-
-BOOST_AUTO_TEST_CASE(testSaving) {
-    Game g("board.txt");
-    g.load();
-    std::cout << g.getBoard() << std::endl;
-}
-

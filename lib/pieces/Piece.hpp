@@ -1,6 +1,7 @@
 // Copyright (2024) Alvin Yu
 
 #pragma once
+#include <vector>
 #include <string>
 
 enum ptype {
@@ -23,6 +24,8 @@ class Piece {
     virtual void setColor(pcolor _color) {this->_color = _color;}
     virtual std::string id();
     virtual bool move(int row, int col, int dRow, int dCol) {return false;}
+    virtual bool move(int row, int col, int dRow, int dCol,
+                      std::vector<std::vector<Piece*>> board) {return false;}
 };
 
 
