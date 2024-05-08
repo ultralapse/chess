@@ -36,12 +36,24 @@ void Board::write(int row, int col, Piece* p) {
 }
 
 bool Board::move(int row, int col, int dRow, int dCol) {
-    // std::cout << "Function has been entered" << std::endl;
+    // See if the move is even a legal piece movemement
+    if (_board[row][col]->type() == P) {
+        if (!_board[row][col]->move(row, col, dRow, dCol, _board)) {
+            return false;
+        }
+    } else {
+        if (!_board[row][col]->move(row, col, dRow, dCol)) {
+            return false;
+        }
+    }
+
+    // Bounds checking
     if (row > 7 || row < 0 || col > 7 || col < 0 ||
         dRow > 7 || dRow < 0 || dCol > 7 || dCol < 0) {
         return false;
     }
 
+    // Capturing logic
     if (_board[dRow][dCol] != nullptr) {
         pcolor curColor = _board[row][col]->color();
         pcolor destColor = _board[dRow][dCol]->color();
@@ -51,9 +63,6 @@ bool Board::move(int row, int col, int dRow, int dCol) {
             return false;
         }
 
-        if (!_board[row][col]->move(row, col, dRow, dCol)) {
-            return false;
-        }
         switch (curColor) {
             case White:
                 _wjail.push_back(_board[dRow][dCol]);
@@ -62,14 +71,12 @@ bool Board::move(int row, int col, int dRow, int dCol) {
         }
     }
 
+    // Cannot move past a piece
     if (obstruction(row, col, dRow, dCol)) {
         return false;
     }
 
-    if (!_board[row][col]->move(row, col, dRow, dCol)) {
-        return false;
-    }
-
+    // Simulate movement
     _board[dRow][dCol] = _board[row][col];
     _board[row][col] = nullptr;
     return true;
