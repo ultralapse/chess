@@ -87,7 +87,9 @@ bool Board::move(int row, int col, int dRow, int dCol) {
 }
 
 std::ostream& operator<<(std::ostream& out, Board &b) {
+    out << "  a b c d e f g h\n";
     for (unsigned int i = 0; i < 8; i++) {
+        out << i << " ";
         for (unsigned int j = 0; j < 8; j++) {
             if (b._board[i][j] != nullptr) {
                 out << b._board[i][j]->id() << " ";
