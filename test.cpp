@@ -89,7 +89,7 @@ BOOST_AUTO_TEST_CASE(RookMovement) {
     BOOST_CHECK_EQUAL(b.move(3, 0, 0, 0), true);
 
     // Illegally move past bounds of the board
-    BOOST_CHECK_EQUAL(b.move(0, 0, -1, -1), false);
+    BOOST_CHECK_EQUAL(b.move(0, 0, 0, -1), false);
 
     b.move(0, 0, 3, 0);
     b.move(3, 0, 3, 3);
@@ -100,4 +100,15 @@ BOOST_AUTO_TEST_CASE(RookMovement) {
     // Obstruction testing
     b.write(3, 1, new Pawn(White));
     BOOST_CHECK_EQUAL(b.move(3, 3, 3, 0), false);
+}
+
+BOOST_AUTO_TEST_CASE(pawnMovement) {
+    std::cout << "Testing Pawn Movement" << std::endl;
+    Board b;
+    b.clear();
+    b.write(3, 3, new Pawn(White));
+    // b.write(2, 3, new Rook(Black));
+    std::cout << b << std::endl;
+    b.move(3, 3, 2, 3);
+    std::cout << b << std::endl;
 }

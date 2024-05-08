@@ -39,10 +39,12 @@ bool Board::move(int row, int col, int dRow, int dCol) {
     // See if the move is even a legal piece movemement
     if (_board[row][col]->type() == P) {
         if (!_board[row][col]->move(row, col, dRow, dCol, _board)) {
+            std::cout << "Invalid Piece Movement. Please refer to the rules" << std::endl;
             return false;
         }
     } else {
         if (!_board[row][col]->move(row, col, dRow, dCol)) {
+            std::cout << "Invalid Piece Movement. Please refer to the rules" << std::endl;
             return false;
         }
     }
@@ -50,6 +52,7 @@ bool Board::move(int row, int col, int dRow, int dCol) {
     // Bounds checking
     if (row > 7 || row < 0 || col > 7 || col < 0 ||
         dRow > 7 || dRow < 0 || dCol > 7 || dCol < 0) {
+        std::cout << "Invalid Move: Out of bounds" << std::endl;
         return false;
     }
 
@@ -59,7 +62,7 @@ bool Board::move(int row, int col, int dRow, int dCol) {
         pcolor destColor = _board[dRow][dCol]->color();
 
         if (curColor == destColor) {
-            std::cout << "Illegal Move" << std::endl;
+            std::cout << "Invalid Move: You cannot capture your own piece" << std::endl;
             return false;
         }
 
@@ -73,6 +76,7 @@ bool Board::move(int row, int col, int dRow, int dCol) {
 
     // Cannot move past a piece
     if (obstruction(row, col, dRow, dCol)) {
+        std::cout << "Invalid Move: You cannot move past a piece" << std::endl;
         return false;
     }
 

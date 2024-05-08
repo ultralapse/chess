@@ -1,6 +1,8 @@
 // Copyright (2024) Alvin Yu
 
+#include <iostream>
 #include "Pawn.hpp"
+
 
 bool Pawn::move(int row, int col, int dRow, int dCol, std::vector<std::vector<Piece *>> board) {
     int cRow = dRow - row;
@@ -13,19 +15,21 @@ bool Pawn::move(int row, int col, int dRow, int dCol, std::vector<std::vector<Pi
     switch (color()) {
         case White:
             if (cRow == 1) return false;
+            break;
         case Black:
             if (cRow == -1) return false;
+            break;
         default:
             return false;
     }
 
     if (abs(cCol) == 1 && abs(cRow) == 1) {
         if (board[dRow][dCol] != nullptr) {
-            return board[row][col]->color() == board[dRow][dCol]->color();
+            return board[row][col]->color() != board[dRow][dCol]->color();
         }
     }
 
-    return board[dRow][dCol] != nullptr;
+    return board[dRow][dCol] == nullptr;
 }
 
 
