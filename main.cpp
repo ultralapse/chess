@@ -11,7 +11,9 @@ int main(int argc, char **argv) {
     } else {
         Game g(argv[1]);
         g.load();
-        // Operations go here
+        if (argc > 2) {
+            g.move(argv[2], argv[3]);
+        }
         std::cout << g.getBoard() << std::endl;
         g.save();
     }

@@ -3,6 +3,30 @@
 #include "Game.hpp"
 #include <fstream>
 
+void Game::move(const std::string &pos1, const std::string &pos2) {
+    std::pair<int, int> c1 = converter(pos1);
+    std::pair<int, int> c2 = converter(pos2);
+
+    b.move(c1.first, c1.second, c2.first, c2.second);
+}
+
+std::pair<int, int> Game::converter(const std::string& notation) {
+    if (notation.size() != 2) {
+        throw std::invalid_argument("Invalid chess notation");
+    }
+
+    char colLetter = notation[0];
+    char rowNumber = notation[1];
+
+    if (colLetter < 'A' || colLetter > 'H' || rowNumber < '1' || rowNumber > '8') {
+        throw std::invalid_argument("Invalid chess notation");
+    }
+
+    int col = colLetter - 'A';
+    int row = '8' - rowNumber;
+
+    return {row, col};
+}
 
 void Game::save() {
     // Open the file

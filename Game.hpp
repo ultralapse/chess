@@ -17,6 +17,10 @@ class Game {
  public:
     explicit Game(std::string filename) {this->filename = filename;}
 
+    std::pair<int, int> converter(const std::string& notation);
+
+    void move(const std::string &pos1, const std::string &pos2);
+
     void load();
 
     void save();
