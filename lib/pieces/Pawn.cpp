@@ -26,6 +26,8 @@ bool Pawn::move(int row, int col, int dRow, int dCol, std::vector<std::vector<Pi
     if (abs(cCol) == 1 && abs(cRow) == 1) {
         if (board[dRow][dCol] != nullptr) {
             return board[row][col]->color() != board[dRow][dCol]->color();
+        } else {
+            return false;
         }
     }
 

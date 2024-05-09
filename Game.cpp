@@ -70,6 +70,64 @@ void Game::save() {
         file << '\n';
     }
 
+    for (Piece *piece : b.wjail()) {
+        int value = 0;
+        switch (piece->type()) {
+            case P:
+                value = (piece->color() == White) ? 1 : 7;
+                break;
+            case N:
+                value = (piece->color() == White) ? 2 : 8;
+                break;
+            case R:
+                value = (piece->color() == White) ? 3 : 9;
+                break;
+            case B:
+                value = (piece->color() == White) ? 4 : 10;
+                break;
+            case Q:
+                value = (piece->color() == White) ? 5 : 11;
+                break;
+            case K:
+                value = (piece->color() == White) ? 6 : 12;
+                break;
+        }
+
+        // Write the value to the file, followed by a space
+        file << value << ' ';
+    }
+
+    file << "\n";
+
+    for (Piece *piece : b.wjail()) {
+        int value = 0;
+        switch (piece->type()) {
+            case P:
+                value = (piece->color() == White) ? 1 : 7;
+                break;
+            case N:
+                value = (piece->color() == White) ? 2 : 8;
+                break;
+            case R:
+                value = (piece->color() == White) ? 3 : 9;
+                break;
+            case B:
+                value = (piece->color() == White) ? 4 : 10;
+                break;
+            case Q:
+                value = (piece->color() == White) ? 5 : 11;
+                break;
+            case K:
+                value = (piece->color() == White) ? 6 : 12;
+                break;
+        }
+
+        // Write the value to the file, followed by a space
+        file << value << ' ';
+    }
+
+    file << "\n";
+
     // Close the file
     file.close();
 }
