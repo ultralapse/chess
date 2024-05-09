@@ -29,6 +29,9 @@ class Board {
     // Indexing function
     Piece* get(int row, int col) {return _board[row][col];}
 
+    std::vector<Piece *> &wjail() {return _wjail;}
+    std::vector<Piece *> &bjail() {return _bjail;}
+
     Piece* getWhiteCapture(int index) {return _wjail[index];}
     Piece* getBlackCapture(int index) {return _bjail[index];}
 

@@ -36,6 +36,18 @@ void Board::write(int row, int col, Piece* p) {
 }
 
 bool Board::move(int row, int col, int dRow, int dCol) {
+    if (_board[row][col] == nullptr) {
+        std::cout << "Invalid Move: Empty Square" << std::endl;
+        return false;
+    }
+
+    // Bounds checking
+    if (row > 7 || row < 0 || col > 7 || col < 0 ||
+        dRow > 7 || dRow < 0 || dCol > 7 || dCol < 0) {
+        std::cout << "Invalid Move: Out of bounds" << std::endl;
+        return false;
+    }
+
     // See if the move is even a legal piece movemement
     if (_board[row][col]->type() == P) {
         if (!_board[row][col]->move(row, col, dRow, dCol, _board)) {
@@ -49,10 +61,9 @@ bool Board::move(int row, int col, int dRow, int dCol) {
         }
     }
 
-    // Bounds checking
-    if (row > 7 || row < 0 || col > 7 || col < 0 ||
-        dRow > 7 || dRow < 0 || dCol > 7 || dCol < 0) {
-        std::cout << "Invalid Move: Out of bounds" << std::endl;
+    // Cannot move past a piece. Knights skip this check
+    if (_board[row][col]->type() != K && obstruction(row, col, dRow, dCol)) {
+        std::cout << "Invalid Move: You cannot move past a piece" << std::endl;
         return false;
     }
 
@@ -69,15 +80,11 @@ bool Board::move(int row, int col, int dRow, int dCol) {
         switch (curColor) {
             case White:
                 _wjail.push_back(_board[dRow][dCol]);
+                break;
             default:
                 _bjail.push_back(_board[dRow][dCol]);
+                break;
         }
-    }
-
-    // Cannot move past a piece
-    if (obstruction(row, col, dRow, dCol)) {
-        std::cout << "Invalid Move: You cannot move past a piece" << std::endl;
-        return false;
     }
 
     // Simulate movement
@@ -99,6 +106,19 @@ std::ostream& operator<<(std::ostream& out, Board &b) {
         }
         out << std::endl;
     }
+
+    out << "\n";
+    out << "Captured Pieces:\n";
+    out << "White: ";
+    for (Piece *p : b._wjail) {
+        out << p->id() << " ";
+    }
+    out << "\nBlack: ";
+    for (Piece *p : b._bjail) {
+        out << p->id() << " ";
+    }
+
+
     return out;
 }
 
