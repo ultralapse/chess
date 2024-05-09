@@ -99,7 +99,7 @@ void Game::save() {
 
     file << "\n";
 
-    for (Piece *piece : b.wjail()) {
+    for (Piece *piece : b.bjail()) {
         int value = 0;
         switch (piece->type()) {
             case P:
