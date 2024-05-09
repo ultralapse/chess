@@ -1,6 +1,7 @@
 // Copyright (2024)
 
 #include <iostream>
+#include <cstring>
 #include "Game.hpp"
 #include "lib/Board.hpp"
 
@@ -11,9 +12,14 @@ int main(int argc, char **argv) {
     } else {
         Game g(argv[1]);
         g.load();
-        if (argc > 2) {
-            g.move(argv[2], argv[3]);
+
+        std::string str = argv[2];
+
+        if (str == "RESET") {
+            g.reset();
         }
+
+        if (argc > 3) g.move(argv[2], argv[3]);
         std::cout << g.getBoard() << std::endl;
         g.save();
     }
