@@ -8,6 +8,26 @@ bool Pawn::move(int row, int col, int dRow, int dCol, std::vector<std::vector<Pi
     int cRow = dRow - row;
     int cCol = dCol - col;
 
+    // White Initial Double Move
+    if (cRow == -2 && cCol == 0) {
+        switch (color()) {
+            case White:
+                return row == 6 && board[dRow][dCol] == nullptr;
+            case Black:
+                return false;
+        }
+    }
+
+    // Black Initial Double Move
+    if (cRow == 2 && cCol == 0) {
+        switch (color()) {
+            case Black:
+                return row == 1 && board[dRow][dCol] == nullptr;
+            case White:
+                return false;
+        }
+    }
+
     if (abs(cRow) > 1 || abs(cCol) > 1) return false;
 
     if (abs(cCol) == 1 && abs(cRow) != 1) return false;
