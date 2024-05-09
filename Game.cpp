@@ -70,6 +70,7 @@ void Game::save() {
         file << '\n';
     }
 
+    file << b.wjail().size() << " ";
     for (Piece *piece : b.wjail()) {
         int value = 0;
         switch (piece->type()) {
@@ -99,6 +100,7 @@ void Game::save() {
 
     file << "\n";
 
+    file << b.bjail().size() << " ";
     for (Piece *piece : b.bjail()) {
         int value = 0;
         switch (piece->type()) {
@@ -174,6 +176,59 @@ void Game::load() {
             } else {
                 b.set(i, j, nullptr);  // Set empty squares to nullptr
             }
+        }
+    }
+
+    int value;
+    file >> value;
+    for (int i = 0; i < value; i++) {
+        int code;
+        file >> code;
+        switch (code % 6) {
+            case 1:
+                b.wjail().push_back(new Pawn(Black));
+                break;
+            case 2:
+                b.wjail().push_back(new Knight(Black));
+                break;
+            case 3:
+                b.wjail().push_back(new Rook(Black));
+                break;
+            case 4:
+                b.wjail().push_back(new Bishop(Black));
+                break;
+            case 5:
+                b.wjail().push_back(new Queen(Black));
+                break;
+            case 0:
+                b.wjail().push_back(new King(Black));
+                break;
+        }
+    }
+
+    file >> value;
+    for (int i = 0; i < value ; i++) {
+        int code;
+        file >> code;
+        switch (code % 6) {
+            case 1:
+                b.bjail().push_back(new Pawn(White));
+                break;
+            case 2:
+                b.bjail().push_back(new Knight(White));
+                break;
+            case 3:
+                b.bjail().push_back(new Rook(White));
+                break;
+            case 4:
+                b.bjail().push_back(new Bishop(White));
+                break;
+            case 5:
+                b.bjail().push_back(new Queen(White));
+                break;
+            case 0:
+                b.bjail().push_back(new King(White));
+                break;
         }
     }
 
