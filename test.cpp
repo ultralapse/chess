@@ -82,7 +82,7 @@ BOOST_AUTO_TEST_CASE(RookMovement) {
 
     // Move the Rook to Enemy Queen Square. Expect a capture.
     BOOST_CHECK_EQUAL(b.move(3, 3, 3, 0), true);
-    BOOST_CHECK_EQUAL(b.getWhiteCapture(0)->type(), Q);
+    BOOST_CHECK_EQUAL(b.wjail().at(0)->type(), Q);
 
     // New Rook Position is (3, 0)
     // Now Move it to (0, 0)

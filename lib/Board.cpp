@@ -216,7 +216,16 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
 void Board::clear() {
     for (unsigned int i = 0; i < _board.size(); i++) {
         for (unsigned int j = 0; j < _board.size(); j++) {
+            delete _board[i][j];
             _board[i][j] = nullptr;
         }
+    }
+
+    for (unsigned int i = 0; i < _wjail.size(); i++) {
+        delete _wjail[i];
+    }
+
+    for (unsigned int i = 0; i < _bjail.size(); i++) {
+        delete _bjail[i];
     }
 }
