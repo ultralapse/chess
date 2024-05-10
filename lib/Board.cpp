@@ -151,7 +151,7 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
     }
 
     // Check for Up Linear Obstruction
-    if (changeCol == 0 && changeRow > 0) {
+    if (changeCol == 0 && changeRow < 0) {
         for (int i = row - 1; i > dRow; i--) {
             if (_board[i][col] != nullptr) return true;
         }
@@ -159,7 +159,7 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
     }
 
     // Check for Down Linear Obstruction
-    if (changeCol == 0 && changeRow < 0) {
+    if (changeCol == 0 && changeRow > 0) {
         for (int i = row + 1; i < dRow; i++) {
             if (_board[i][col] != nullptr) return true;
         }
