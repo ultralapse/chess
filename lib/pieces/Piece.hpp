@@ -17,7 +17,7 @@ class Piece {
     pcolor _color;
 
  public:
-    // virtual ~Piece(){}
+    virtual ~Piece() {}
     virtual ptype type() {return _type;}
     virtual pcolor color() {return _color;}
     virtual void setType(ptype _type) {this->_type = _type;}

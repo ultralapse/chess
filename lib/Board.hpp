@@ -32,9 +32,6 @@ class Board {
     std::vector<Piece *> &wjail() {return _wjail;}
     std::vector<Piece *> &bjail() {return _bjail;}
 
-    Piece* getWhiteCapture(int index) {return _wjail[index];}
-    Piece* getBlackCapture(int index) {return _bjail[index];}
-
     void set(int row, int col, Piece *p) {_board[row][col] = p;}
 
     // Function that unconditionally writes to a square
