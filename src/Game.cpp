@@ -10,6 +10,13 @@ void Game::undo() {
         return;
     }
 
+    bool ep = false;
+    if (stack.back() == "EP") {
+        ep = true;
+        stack.pop_back();
+    }
+
+
     std::string pos1 = stack.back(); stack.pop_back();
     std::string pos2 = stack.back(); stack.pop_back();
 
@@ -17,11 +24,21 @@ void Game::undo() {
     std::pair<int, int> c2 = converter(pos2);
 
     b.swap(c1.first, c1.second, c2.first, c2.second);
+
+    if (ep) {
+        b.get(c2.first, c2.second)->setEP(true);
+    }
 }
 
 void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
+
+    bool ep = false;
+
+    if (b.get(c1.first, c1.second)->ep()) {
+        ep = true;
+    }
 
     bool moved = b.move(c1.first, c1.second, c2.first, c2.second);
 
@@ -30,6 +47,9 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
     if (moved) {
         stack.push_back(pos1);
         stack.push_back(pos2);
+        if (ep) {
+            stack.push_back("EP");
+        }
     }
 }
 
@@ -67,6 +87,7 @@ void Game::save() {
             switch (piece->type()) {
                 case P:
                     value = (piece->color() == White) ? 1 : 7;
+                    if (piece->ep()) value = -value;
                     break;
                 case N:
                     value = (piece->color() == White) ? 2 : 8;
@@ -185,8 +206,11 @@ void Game::load() {
             if (value != 0) {
                 pcolor color = (value <= 6) ? White : Black;
                 switch (value % 6) {
+                    case -1:
+                        b.set(i, j, std::make_shared<Pawn>(color, true));
+                        break;
                     case 1:
-                        b.set(i, j, std::make_shared<Pawn>(color));
+                        b.set(i, j, std::make_shared<Pawn>(color, false));
                         break;
                     case 2:
                         b.set(i, j, std::make_shared<Knight>(color));
@@ -217,7 +241,7 @@ void Game::load() {
         file >> code;
         switch (code % 6) {
             case 1:
-                b.wjail().push_back(std::make_shared<Pawn>(Black));
+                b.wjail().push_back(std::make_shared<Pawn>(Black, false));
                 break;
             case 2:
                 b.wjail().push_back(std::make_shared<Knight>(Black));
@@ -243,7 +267,7 @@ void Game::load() {
         file >> code;
         switch (code % 6) {
             case 1:
-                b.bjail().push_back(std::make_shared<Pawn>(White));
+                b.bjail().push_back(std::make_shared<Pawn>(White, false));
                 break;
             case 2:
                 b.bjail().push_back(std::make_shared<Knight>(White));

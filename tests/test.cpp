@@ -15,7 +15,7 @@
 // Test Check
 BOOST_AUTO_TEST_CASE(obstructLinear) {
     Board b;
-    b.write(5, 5, std::make_shared<Pawn>(White));
+    b.write(5, 5, std::make_shared<Pawn>(White, false));
     std::cout << b.get(5, 5)->id() << std::endl;
     bool result = b.obstruction(5, 1, 5, 7);
 
@@ -36,7 +36,7 @@ BOOST_AUTO_TEST_CASE(obstructLinear) {
 
 BOOST_AUTO_TEST_CASE(obstructDiagonal) {
     Board b;
-    b.write(6, 4, std::make_shared<Pawn>(White));
+    b.write(6, 4, std::make_shared<Pawn>(White, false));
     std::cout << b.get(6, 4)->id() << std::endl;
 
     bool result = b.obstruction(5, 3, 7, 5);
@@ -97,7 +97,7 @@ BOOST_AUTO_TEST_CASE(RookMovement) {
     BOOST_CHECK_EQUAL(b.move(3, 3, 7, 3), false);
 
     // Obstruction testing
-    b.write(3, 1, std::make_shared<Pawn>(White));
+    b.write(3, 1, std::make_shared<Pawn>(White, false));
     BOOST_CHECK_EQUAL(b.move(3, 3, 3, 0), false);
 }
 
@@ -105,7 +105,7 @@ BOOST_AUTO_TEST_CASE(pawnMovement) {
     std::cout << "Testing Pawn Movement" << std::endl;
     Board b;
     b.clear();
-    b.write(3, 3, std::make_shared<Pawn>(White));
+    b.write(3, 3, std::make_shared<Pawn>(White, false));
     // b.write(2, 3, new Rook(Black));
     std::cout << b << std::endl;
     b.move(3, 3, 2, 3);

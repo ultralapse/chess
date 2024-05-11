@@ -6,11 +6,11 @@ Board::Board() {
     _board = std::vector<std::vector<std::shared_ptr<Piece>>>
             (8, std::vector<std::shared_ptr<Piece>>(8));
     for (int i = 0; i < 8; i++) {
-        _board[6][i] = std::make_shared<Pawn>(White);
+        _board[6][i] = std::make_shared<Pawn>(White, false);
     }
 
     for (int i = 0; i < 8; i++) {
-        _board[1][i] = std::make_shared<Pawn>(Black);
+        _board[1][i] = std::make_shared<Pawn>(Black, false);
     }
 
     _board[0][0] = std::make_shared<Rook>(Black);

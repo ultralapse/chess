@@ -8,10 +8,13 @@ bool Pawn::move(int row, int col, int dRow, int dCol,
     int cRow = dRow - row;
     int cCol = dCol - col;
 
+    if (_ep) {_ep = false;}
+
     // White Initial Double Move
     if (cRow == -2 && cCol == 0) {
         switch (color()) {
             case White:
+                _ep = true;
                 return row == 6 && board[dRow][dCol] == nullptr;
             case Black:
                 return false;
@@ -22,6 +25,7 @@ bool Pawn::move(int row, int col, int dRow, int dCol,
     if (cRow == 2 && cCol == 0) {
         switch (color()) {
             case Black:
+                _ep = true;
                 return row == 1 && board[dRow][dCol] == nullptr;
             case White:
                 return false;
