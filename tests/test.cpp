@@ -5,8 +5,9 @@
 #include <fstream>
 #include <sstream>
 
-#include "Game.hpp"
-#include "lib/Board.hpp"
+#include "../lib/Board.hpp"
+#include "../Game.hpp"
+
 
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Main
