@@ -2,3 +2,4 @@
 
 export CMAKE_GENERATOR=Ninja
 mkdir -p build && cd build && cmake ..
+ninja
