@@ -168,7 +168,8 @@ void Game::load() {
 
     // Check if the file was opened successfully
     if (!file) {
-        std::cerr << "Unable to open file output.txt";
+        std::cerr << "Unable to open file " << filename << ". ";
+        std::cerr << "Creating new file.\n";
         return;
     }
 

@@ -2,7 +2,7 @@
 
 #pragma once
 #include <string>
-#include "lib/Board.hpp"
+#include "../lib/Board.hpp"
 
 class Game {
     // WP=1, WN=2, WR=3, WB=4, WQ=5, WK=6, BP=7, BN=8, BR=9, BB=10, BQ=11, BK=12
