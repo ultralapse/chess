@@ -3,7 +3,6 @@
 #include <iostream>
 #include <cstring>
 #include "Game.hpp"
-#include "lib/Board.hpp"
 
 int main(int argc, char **argv) {
     if (argc == 1) {

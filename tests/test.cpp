@@ -10,7 +10,7 @@
 #include <boost/test/unit_test.hpp>
 
 #include "../lib/Board.hpp"
-#include "../Game.hpp"
+#include "../src/Game.hpp"
 
 // Test Check
 BOOST_AUTO_TEST_CASE(obstructLinear) {
