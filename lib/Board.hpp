@@ -3,6 +3,7 @@
 #pragma once
 #include <iostream>
 #include <vector>
+#include <memory>
 
 #include "pieces/Piece.hpp"
 #include "pieces/Pawn.hpp"
@@ -14,9 +15,9 @@
 
 class Board {
  private:
-    std::vector<std::vector<Piece *>> _board;
-    std::vector<Piece *> _wjail;
-    std::vector<Piece *> _bjail;
+    std::vector<std::vector<std::shared_ptr<Piece>>> _board;
+    std::vector<std::shared_ptr<Piece>> _wjail;
+    std::vector<std::shared_ptr<Piece>> _bjail;
 
  public:
     // Initializes default 8x8 grid
@@ -29,17 +30,17 @@ class Board {
     void clear();
 
     // Indexing function
-    Piece* get(int row, int col) {return _board[row][col];}
+    std::shared_ptr<Piece> get(int row, int col) {return _board[row][col];}
 
-    std::vector<Piece *> &wjail() {return _wjail;}
-    std::vector<Piece *> &bjail() {return _bjail;}
+    std::vector<std::shared_ptr<Piece>> &wjail() {return _wjail;}
+    std::vector<std::shared_ptr<Piece>> &bjail() {return _bjail;}
 
-    void set(int row, int col, Piece *p) {_board[row][col] = p;}
+    void set(int row, int col, std::shared_ptr<Piece> p) {_board[row][col] = p;}
 
     void swap(int row, int col, int dRow, int dCol);
 
     // Function that unconditionally writes to a square
-    void write(int row, int col, Piece *p);
+    void write(int row, int col, std::shared_ptr<Piece> p);
 
     // Will automatically capture pieces regardless of the rules.
     bool move(int row, int col, int dRow, int dCol);

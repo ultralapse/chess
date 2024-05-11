@@ -1,10 +1,10 @@
 // Copyright (2024) Alvin Yu
 
-#include <iostream>
 #include "Pawn.hpp"
 
 
-bool Pawn::move(int row, int col, int dRow, int dCol, std::vector<std::vector<Piece *>> board) {
+bool Pawn::move(int row, int col, int dRow, int dCol,
+                std::vector<std::vector<std::shared_ptr<Piece>>> board) {
     int cRow = dRow - row;
     int cCol = dCol - col;
 
