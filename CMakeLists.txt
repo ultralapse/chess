@@ -24,3 +24,9 @@ target_link_libraries(${PROJECT_NAME} ${Boost_LIBRARIES})
 
 add_executable(test ${TEST_SOURCES} ${SOURCES} ${HEADERS})
 target_link_libraries(test ${Boost_LIBRARIES})
+
+add_custom_target(
+    lint
+    COMMAND cpplint ${SOURCES} ${HEADERS} ${TEST_SOURCES}
+    COMMENT "Running cpplint"
+)
