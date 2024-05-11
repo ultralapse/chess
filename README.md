@@ -3,7 +3,7 @@ Chess Server that operates over SSH, using BubbleTea and Wish. See https://code.
 The project is a work in progress. Right now the main focus is to get the core game mechanics to work.
 
 ## Status
-The core mechanics of the game have not completed. Namely these features are not present in the core Chess game right now.
+The core mechanics of the game have not completed. Namely these features are not present.
 1. En Passant
 2. Castling
 3. Endgame (Check, Checkmate, and Stalemate)
