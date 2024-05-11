@@ -3,35 +3,36 @@
 #include "Board.hpp"
 
 Board::Board() {
-    _board = std::vector<std::vector<Piece *>>(8, std::vector<Piece *>(8));
+    _board = std::vector<std::vector<std::shared_ptr<Piece>>>
+            (8, std::vector<std::shared_ptr<Piece>>(8));
     for (int i = 0; i < 8; i++) {
-        _board[6][i] = new Pawn(White);
+        _board[6][i] = std::make_shared<Pawn>(White);
     }
 
     for (int i = 0; i < 8; i++) {
-        _board[1][i] = new Pawn(Black);
+        _board[1][i] = std::make_shared<Pawn>(Black);
     }
 
-    _board[0][0] = new Rook(Black);
-    _board[0][1] = new Knight(Black);
-    _board[0][2] = new Bishop(Black);
-    _board[0][3] = new Queen(Black);
-    _board[0][4] = new King(Black);
-    _board[0][5] = new Bishop(Black);
-    _board[0][6] = new Knight(Black);
-    _board[0][7] = new Rook(Black);
+    _board[0][0] = std::make_shared<Rook>(Black);
+    _board[0][1] = std::make_shared<Knight>(Black);
+    _board[0][2] = std::make_shared<Bishop>(Black);
+    _board[0][3] = std::make_shared<Queen>(Black);
+    _board[0][4] = std::make_shared<King>(Black);
+    _board[0][5] = std::make_shared<Bishop>(Black);
+    _board[0][6] = std::make_shared<Knight>(Black);
+    _board[0][7] = std::make_shared<Rook>(Black);
 
-    _board[7][0] = new Rook(White);
-    _board[7][1] = new Knight(White);
-    _board[7][2] = new Bishop(White);
-    _board[7][3] = new Queen(White);
-    _board[7][4] = new King(White);
-    _board[7][5] = new Bishop(White);
-    _board[7][6] = new Knight(White);
-    _board[7][7] = new Rook(White);
+    _board[7][0] = std::make_shared<Rook>(White);
+    _board[7][1] = std::make_shared<Knight>(White);
+    _board[7][2] = std::make_shared<Bishop>(White);
+    _board[7][3] = std::make_shared<Queen>(White);
+    _board[7][4] = std::make_shared<King>(White);
+    _board[7][5] = std::make_shared<Bishop>(White);
+    _board[7][6] = std::make_shared<Knight>(White);
+    _board[7][7] = std::make_shared<Rook>(White);
 }
 
-void Board::write(int row, int col, Piece* p) {
+void Board::write(int row, int col, std::shared_ptr<Piece> p) {
     _board[row][col] = p;
 }
 
@@ -115,11 +116,11 @@ std::ostream& operator<<(std::ostream& out, Board &b) {
     out << "\n";
     out << "Captured Pieces:\n";
     out << "White: ";
-    for (Piece *p : b._wjail) {
+    for (std::shared_ptr<Piece> p : b._wjail) {
         out << p->id() << " ";
     }
     out << "\nBlack: ";
-    for (Piece *p : b._bjail) {
+    for (std::shared_ptr<Piece> p : b._bjail) {
         out << p->id() << " ";
     }
 
@@ -221,18 +222,18 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
 void Board::clear() {
     for (unsigned int i = 0; i < _board.size(); i++) {
         for (unsigned int j = 0; j < _board.size(); j++) {
-            delete _board[i][j];
+            // delete _board[i][j];
             _board[i][j] = nullptr;
         }
     }
 
-    for (unsigned int i = 0; i < _wjail.size(); i++) {
-        delete _wjail[i];
-    }
+    // for (unsigned int i = 0; i < _wjail.size(); i++) {
+    //     delete _wjail[i];
+    // }
 
-    for (unsigned int i = 0; i < _bjail.size(); i++) {
-        delete _bjail[i];
-    }
+    // for (unsigned int i = 0; i < _bjail.size(); i++) {
+    //     delete _bjail[i];
+    // }
 }
 
 Board& Board::operator=(Board&& other) noexcept {

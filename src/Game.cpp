@@ -23,12 +23,14 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
 
-    b.move(c1.first, c1.second, c2.first, c2.second);
-
-    stack.push_back(pos1);
-    stack.push_back(pos2);
+    bool moved = b.move(c1.first, c1.second, c2.first, c2.second);
 
     // And then undo the move if it results in a Check.
+
+    if (moved) {
+        stack.push_back(pos1);
+        stack.push_back(pos2);
+    }
 }
 
 std::pair<int, int> Game::converter(const std::string& notation) {
@@ -56,7 +58,7 @@ void Game::save() {
     // Assuming _board is a 2D array of Piece*
     for (int i = 0; i < 8; ++i) {
         for (int j = 0; j < 8; ++j) {
-            Piece* piece = b.get(i, j);
+            std::shared_ptr<Piece> piece = b.get(i, j);
             if (piece == nullptr) {
                 file << "0 ";  // Write 0 for empty squares
                 continue;
@@ -92,7 +94,7 @@ void Game::save() {
     }
 
     file << b.wjail().size() << " ";
-    for (Piece *piece : b.wjail()) {
+    for (std::shared_ptr<Piece> piece : b.wjail()) {
         int value = 0;
         switch (piece->type()) {
             case P:
@@ -122,7 +124,7 @@ void Game::save() {
     file << "\n";
 
     file << b.bjail().size() << " ";
-    for (Piece *piece : b.bjail()) {
+    for (std::shared_ptr<Piece> piece : b.bjail()) {
         int value = 0;
         switch (piece->type()) {
             case P:
@@ -184,22 +186,22 @@ void Game::load() {
                 pcolor color = (value <= 6) ? White : Black;
                 switch (value % 6) {
                     case 1:
-                        b.set(i, j, new Pawn(color));
+                        b.set(i, j, std::make_shared<Pawn>(color));
                         break;
                     case 2:
-                        b.set(i, j, new Knight(color));
+                        b.set(i, j, std::make_shared<Knight>(color));
                         break;
                     case 3:
-                        b.set(i, j, new Rook(color));
+                        b.set(i, j, std::make_shared<Rook>(color));
                         break;
                     case 4:
-                        b.set(i, j, new Bishop(color));
+                        b.set(i, j, std::make_shared<Bishop>(color));
                         break;
                     case 5:
-                        b.set(i, j, new Queen(color));
+                        b.set(i, j, std::make_shared<Queen>(color));
                         break;
                     case 0:
-                        b.set(i, j, new King(color));
+                        b.set(i, j, std::make_shared<King>(color));
                         break;
                 }
             } else {
@@ -215,22 +217,22 @@ void Game::load() {
         file >> code;
         switch (code % 6) {
             case 1:
-                b.wjail().push_back(new Pawn(Black));
+                b.wjail().push_back(std::make_shared<Pawn>(Black));
                 break;
             case 2:
-                b.wjail().push_back(new Knight(Black));
+                b.wjail().push_back(std::make_shared<Knight>(Black));
                 break;
             case 3:
-                b.wjail().push_back(new Rook(Black));
+                b.wjail().push_back(std::make_shared<Rook>(Black));
                 break;
             case 4:
-                b.wjail().push_back(new Bishop(Black));
+                b.wjail().push_back(std::make_shared<Bishop>(Black));
                 break;
             case 5:
-                b.wjail().push_back(new Queen(Black));
+                b.wjail().push_back(std::make_shared<Queen>(Black));
                 break;
             case 0:
-                b.wjail().push_back(new King(Black));
+                b.wjail().push_back(std::make_shared<King>(Black));
                 break;
         }
     }
@@ -241,22 +243,22 @@ void Game::load() {
         file >> code;
         switch (code % 6) {
             case 1:
-                b.bjail().push_back(new Pawn(White));
+                b.bjail().push_back(std::make_shared<Pawn>(White));
                 break;
             case 2:
-                b.bjail().push_back(new Knight(White));
+                b.bjail().push_back(std::make_shared<Knight>(White));
                 break;
             case 3:
-                b.bjail().push_back(new Rook(White));
+                b.bjail().push_back(std::make_shared<Rook>(White));
                 break;
             case 4:
-                b.bjail().push_back(new Bishop(White));
+                b.bjail().push_back(std::make_shared<Bishop>(White));
                 break;
             case 5:
-                b.bjail().push_back(new Queen(White));
+                b.bjail().push_back(std::make_shared<Queen>(White));
                 break;
             case 0:
-                b.bjail().push_back(new King(White));
+                b.bjail().push_back(std::make_shared<King>(White));
                 break;
         }
     }
