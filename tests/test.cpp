@@ -5,14 +5,12 @@
 #include <fstream>
 #include <sstream>
 
-#include "../lib/Board.hpp"
-#include "../Game.hpp"
-
-
 #define BOOST_TEST_DYN_LINK
 #define BOOST_TEST_MODULE Main
 #include <boost/test/unit_test.hpp>
 
+#include "../lib/Board.hpp"
+#include "../Game.hpp"
 
 // Test Check
 BOOST_AUTO_TEST_CASE(obstructLinear) {
