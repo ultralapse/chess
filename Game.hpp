@@ -14,6 +14,8 @@ class Game {
 
     std::string filename;
 
+    std::vector<std::string> stack;
+
  public:
     explicit Game(std::string filename) {this->filename = filename;}
 
@@ -23,7 +25,9 @@ class Game {
 
     void load();
 
-    void reset() {this->b = Board();}
+    void undo();
+
+    void reset() {this->b = Board(); stack.clear();}
 
     void save();
 

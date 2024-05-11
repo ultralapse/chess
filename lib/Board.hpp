@@ -36,6 +36,8 @@ class Board {
 
     void set(int row, int col, Piece *p) {_board[row][col] = p;}
 
+    void swap(int row, int col, int dRow, int dCol);
+
     // Function that unconditionally writes to a square
     void write(int row, int col, Piece *p);
 

@@ -35,6 +35,11 @@ void Board::write(int row, int col, Piece* p) {
     _board[row][col] = p;
 }
 
+void Board::swap(int row, int col, int dRow, int dCol) {
+    _board[dRow][dCol] = _board[row][col];
+    _board[row][col] = nullptr;
+}
+
 bool Board::move(int row, int col, int dRow, int dCol) {
     if (_board[row][col] == nullptr) {
         std::cout << "Invalid Move: Empty Square" << std::endl;
