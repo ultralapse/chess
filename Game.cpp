@@ -3,11 +3,32 @@
 #include "Game.hpp"
 #include <fstream>
 
+
+void Game::undo() {
+    if (stack.empty()) {
+        std::cout << "You have not made a move" << std::endl;
+        return;
+    }
+
+    std::string pos1 = stack.back(); stack.pop_back();
+    std::string pos2 = stack.back(); stack.pop_back();
+
+    std::pair<int, int> c1 = converter(pos1);
+    std::pair<int, int> c2 = converter(pos2);
+
+    b.swap(c1.first, c1.second, c2.first, c2.second);
+}
+
 void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
 
     b.move(c1.first, c1.second, c2.first, c2.second);
+
+    stack.push_back(pos1);
+    stack.push_back(pos2);
+
+    // And then undo the move if it results in a Check.
 }
 
 std::pair<int, int> Game::converter(const std::string& notation) {
@@ -130,6 +151,13 @@ void Game::save() {
 
     file << "\n";
 
+    file << stack.size() << ' ';
+
+
+    for (std::string s : stack) {
+        file << s << ' ';
+    }
+
     // Close the file
     file.close();
 }
@@ -230,6 +258,15 @@ void Game::load() {
                 b.bjail().push_back(new King(White));
                 break;
         }
+    }
+
+    int total;
+    file >> total;
+
+    for (int i = 0; i < total; i++) {
+        std::string s;
+        file >> s;
+        stack.push_back(s);
     }
 
     // Close the file
