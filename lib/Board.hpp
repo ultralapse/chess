@@ -24,6 +24,8 @@ class Board {
 
     ~Board() {clear();}
 
+    Board& operator=(Board&& other) noexcept;
+
     void clear();
 
     // Indexing function

@@ -229,3 +229,17 @@ void Board::clear() {
         delete _bjail[i];
     }
 }
+
+Board& Board::operator=(Board&& other) noexcept {
+    if (this != &other) {
+        _board = std::move(other._board);
+        _wjail = std::move(other._wjail);
+        _bjail = std::move(other._bjail);
+
+        // Reset other's state
+        other._board.clear();
+        other._wjail.clear();
+        other._bjail.clear();
+    }
+    return *this;
+}
