@@ -23,7 +23,7 @@ class Game {
 
     void load();
 
-    void reset() {Board b; this->b = b;}
+    void reset() {this->b = Board();}
 
     void save();
 
