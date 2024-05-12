@@ -8,7 +8,7 @@ bool Pawn::move(int row, int col, int dRow, int dCol,
     int cRow = dRow - row;
     int cCol = dCol - col;
 
-    if (_ep) {_ep = false;}
+    // if (_ep) {_ep = false;}
 
     // White Initial Double Move
     if (cRow == -2 && cCol == 0 && row == 6) {
