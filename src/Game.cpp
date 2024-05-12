@@ -114,7 +114,7 @@ void Game::save() {
                 case P:
                     value = (piece->color() == White) ? 1 : 7;
                     if (piece->ep()) value = -value;
-                    std::cout << value << std::endl;
+                    // std::cout << value << std::endl;
                     break;
                 case N:
                     value = (piece->color() == White) ? 2 : 8;
@@ -231,9 +231,10 @@ void Game::load() {
 
             // Replace the old piece with a new one based on the value
             if (value != 0) {
-                pcolor color = (value <= 6) ? White : Black;
+                pcolor color = (abs(value) <= 6) ? White : Black;
                 switch (value % 6) {
                     case -1:
+                        // std::cout << color << std::endl;
                         b.set(i, j, std::make_shared<Pawn>(color, true));
                         break;
                     case 1:
