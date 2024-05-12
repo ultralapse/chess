@@ -25,10 +25,6 @@ void Game::undo() {
         stack.pop_back();
     }
 
-    if (stack.back() == "EP") {
-        stack.pop_back();
-    }
-
     std::string pos1 = stack.back(); stack.pop_back();
     std::string pos2 = stack.back(); stack.pop_back();
 
@@ -38,9 +34,7 @@ void Game::undo() {
     b.swap(c1.first, c1.second, c2.first, c2.second);
     b.write(c1.first, c1.second, p);
 
-    if (stack.back() == "EP") {
-        b.get(c2.first, c2.second)->setEP(true);
-    } else {
+    if (c2.first == 1 || c2.first == 6) {
         b.get(c2.first, c2.second)->setEP(false);
     }
 }
@@ -56,18 +50,9 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
 
     // And then undo the move if it results in a Check.
 
-    bool ep = false;
-
-    if (b.get(c2.first, c2.second) != nullptr && b.get(c2.first, c2.second)->ep()) {
-        ep = true;
-    }
-
     if (moved) {
         stack.push_back(pos1);
         stack.push_back(pos2);
-        if (ep) {
-            stack.push_back("EP");
-        }
 
         if (b.wjail().size() != wSize) {
             stack.push_back("CB");
@@ -147,6 +132,7 @@ void Game::save() {
         switch (piece->type()) {
             case P:
                 value = (piece->color() == White) ? 1 : 7;
+                if (piece->ep()) value = -value;
                 break;
             case N:
                 value = (piece->color() == White) ? 2 : 8;
@@ -177,6 +163,7 @@ void Game::save() {
         switch (piece->type()) {
             case P:
                 value = (piece->color() == White) ? 1 : 7;
+                if (piece->ep()) value = -value;
                 break;
             case N:
                 value = (piece->color() == White) ? 2 : 8;
@@ -268,6 +255,9 @@ void Game::load() {
         int code;
         file >> code;
         switch (code % 6) {
+            case -1:
+                b.wjail().push_back(std::make_shared<Pawn>(Black, true));
+                break;
             case 1:
                 b.wjail().push_back(std::make_shared<Pawn>(Black, false));
                 break;
@@ -294,6 +284,9 @@ void Game::load() {
         int code;
         file >> code;
         switch (code % 6) {
+            case -1:
+                b.wjail().push_back(std::make_shared<Pawn>(White, true));
+                break;
             case 1:
                 b.bjail().push_back(std::make_shared<Pawn>(White, false));
                 break;
