@@ -10,12 +10,9 @@ void Game::undo() {
         return;
     }
 
-    bool ep = false;
     if (stack.back() == "EP") {
-        ep = true;
         stack.pop_back();
     }
-
 
     std::string pos1 = stack.back(); stack.pop_back();
     std::string pos2 = stack.back(); stack.pop_back();
@@ -25,24 +22,25 @@ void Game::undo() {
 
     b.swap(c1.first, c1.second, c2.first, c2.second);
 
-    if (ep) {
+    if (stack.back() == "EP") {
         b.get(c2.first, c2.second)->setEP(true);
+    } else {
+        b.get(c2.first, c2.second)->setEP(false);
     }
 }
 
 void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
-
-    bool ep = false;
-
-    if (b.get(c1.first, c1.second)->ep()) {
-        ep = true;
-    }
-
     bool moved = b.move(c1.first, c1.second, c2.first, c2.second);
 
     // And then undo the move if it results in a Check.
+
+    bool ep = false;
+
+    if (b.get(c2.first, c2.second) != nullptr && b.get(c2.first, c2.second)->ep()) {
+        ep = true;
+    }
 
     if (moved) {
         stack.push_back(pos1);
