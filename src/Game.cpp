@@ -10,6 +10,21 @@ void Game::undo() {
         return;
     }
 
+    std::shared_ptr<Piece> p = nullptr;
+
+
+    if (stack.back() == "CB") {
+        p = b.wjail().back();
+        b.wjail().pop_back();
+        stack.pop_back();
+    }
+
+    if (stack.back() == "CW") {
+        p = b.bjail().back();
+        b.bjail().pop_back();
+        stack.pop_back();
+    }
+
     if (stack.back() == "EP") {
         stack.pop_back();
     }
@@ -21,6 +36,7 @@ void Game::undo() {
     std::pair<int, int> c2 = converter(pos2);
 
     b.swap(c1.first, c1.second, c2.first, c2.second);
+    b.write(c1.first, c1.second, p);
 
     if (stack.back() == "EP") {
         b.get(c2.first, c2.second)->setEP(true);
@@ -32,6 +48,10 @@ void Game::undo() {
 void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
+
+    unsigned int wSize = b.wjail().size();
+    unsigned int bSize = b.bjail().size();
+
     bool moved = b.move(c1.first, c1.second, c2.first, c2.second);
 
     // And then undo the move if it results in a Check.
@@ -47,6 +67,14 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
         stack.push_back(pos2);
         if (ep) {
             stack.push_back("EP");
+        }
+
+        if (b.wjail().size() != wSize) {
+            stack.push_back("CB");
+        }
+
+        if (b.bjail().size() != bSize) {
+            stack.push_back("CW");
         }
     }
 }
@@ -86,6 +114,7 @@ void Game::save() {
                 case P:
                     value = (piece->color() == White) ? 1 : 7;
                     if (piece->ep()) value = -value;
+                    std::cout << value << std::endl;
                     break;
                 case N:
                     value = (piece->color() == White) ? 2 : 8;
