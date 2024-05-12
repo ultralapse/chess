@@ -10,6 +10,25 @@ void Game::undo() {
         return;
     }
 
+    std::shared_ptr<Piece> p = nullptr;
+
+
+    if (stack.back() == "CB") {
+        p = b.wjail().back();
+        b.wjail().pop_back();
+        stack.pop_back();
+    }
+
+    if (stack.back() == "CW") {
+        p = b.bjail().back();
+        b.bjail().pop_back();
+        stack.pop_back();
+    }
+
+    if (stack.back() == "EP") {
+        stack.pop_back();
+    }
+
     std::string pos1 = stack.back(); stack.pop_back();
     std::string pos2 = stack.back(); stack.pop_back();
 
@@ -17,19 +36,46 @@ void Game::undo() {
     std::pair<int, int> c2 = converter(pos2);
 
     b.swap(c1.first, c1.second, c2.first, c2.second);
+    b.write(c1.first, c1.second, p);
+
+    if (stack.back() == "EP") {
+        b.get(c2.first, c2.second)->setEP(true);
+    } else {
+        b.get(c2.first, c2.second)->setEP(false);
+    }
 }
 
 void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
 
+    unsigned int wSize = b.wjail().size();
+    unsigned int bSize = b.bjail().size();
+
     bool moved = b.move(c1.first, c1.second, c2.first, c2.second);
 
     // And then undo the move if it results in a Check.
 
+    bool ep = false;
+
+    if (b.get(c2.first, c2.second) != nullptr && b.get(c2.first, c2.second)->ep()) {
+        ep = true;
+    }
+
     if (moved) {
         stack.push_back(pos1);
         stack.push_back(pos2);
+        if (ep) {
+            stack.push_back("EP");
+        }
+
+        if (b.wjail().size() != wSize) {
+            stack.push_back("CB");
+        }
+
+        if (b.bjail().size() != bSize) {
+            stack.push_back("CW");
+        }
     }
 }
 
@@ -67,6 +113,8 @@ void Game::save() {
             switch (piece->type()) {
                 case P:
                     value = (piece->color() == White) ? 1 : 7;
+                    if (piece->ep()) value = -value;
+                    // std::cout << value << std::endl;
                     break;
                 case N:
                     value = (piece->color() == White) ? 2 : 8;
@@ -183,10 +231,14 @@ void Game::load() {
 
             // Replace the old piece with a new one based on the value
             if (value != 0) {
-                pcolor color = (value <= 6) ? White : Black;
+                pcolor color = (abs(value) <= 6) ? White : Black;
                 switch (value % 6) {
+                    case -1:
+                        // std::cout << color << std::endl;
+                        b.set(i, j, std::make_shared<Pawn>(color, true));
+                        break;
                     case 1:
-                        b.set(i, j, std::make_shared<Pawn>(color));
+                        b.set(i, j, std::make_shared<Pawn>(color, false));
                         break;
                     case 2:
                         b.set(i, j, std::make_shared<Knight>(color));
@@ -217,7 +269,7 @@ void Game::load() {
         file >> code;
         switch (code % 6) {
             case 1:
-                b.wjail().push_back(std::make_shared<Pawn>(Black));
+                b.wjail().push_back(std::make_shared<Pawn>(Black, false));
                 break;
             case 2:
                 b.wjail().push_back(std::make_shared<Knight>(Black));
@@ -243,7 +295,7 @@ void Game::load() {
         file >> code;
         switch (code % 6) {
             case 1:
-                b.bjail().push_back(std::make_shared<Pawn>(White));
+                b.bjail().push_back(std::make_shared<Pawn>(White, false));
                 break;
             case 2:
                 b.bjail().push_back(std::make_shared<Knight>(White));

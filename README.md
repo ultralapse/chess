@@ -13,9 +13,15 @@ Like most other Chess implementations, these are fully supported:
 2. Piece movement
 3. Piece capturing
 
+In the future, there will be support for
+1. A Terminal UI served over SSH via the project Wish by Charm.sh
+2. Game Rooms
+3. Authentication via SSH Keys
+4. Optional Support for Stockfish Analysis
+
 ## Contributing
 This project places a high emphasis on code quality. The C++ code has no linting errors and tries to conform with the Google C++ Style Guidelines.
 Pull requests are encouraged, but not required to follow the aforementioned style.
 
 On UNIX-like operating systems you can build the program by running `./build.sh`.
-On Windows, you can run `cmake -B build -G Ninja`, then cd build, then `ninja`.
+On Windows, you can run `cmake -B build -G Ninja`, then `cd build`, then `ninja`.
