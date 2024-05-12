@@ -8,9 +8,7 @@ bool Queen::move(int row, int col, int dRow, int dCol) {
 
     if (changeRow == 0 || changeCol == 0) return true;
 
-    int result = changeRow/changeCol;
-
-    return result == 1 || result == -1;
+    return abs(changeRow) == abs(changeCol);
 }
 
 
