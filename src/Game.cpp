@@ -4,40 +4,40 @@
 #include <fstream>
 
 
-void Game::undo() {
-    if (stack.empty()) {
-        std::cout << "You have not made a move" << std::endl;
-        return;
-    }
+// void Game::undo() {
+//     if (stack.empty()) {
+//         std::cout << "You have not made a move" << std::endl;
+//         return;
+//     }
 
-    std::shared_ptr<Piece> p = nullptr;
+//     std::shared_ptr<Piece> p = nullptr;
 
 
-    if (stack.back() == "CB") {
-        p = b.wjail().back();
-        b.wjail().pop_back();
-        stack.pop_back();
-    }
+//     if (stack.back() == "CB") {
+//         p = b.wjail().back();
+//         b.wjail().pop_back();
+//         stack.pop_back();
+//     }
 
-    if (stack.back() == "CW") {
-        p = b.bjail().back();
-        b.bjail().pop_back();
-        stack.pop_back();
-    }
+//     if (stack.back() == "CW") {
+//         p = b.bjail().back();
+//         b.bjail().pop_back();
+//         stack.pop_back();
+//     }
 
-    std::string pos1 = stack.back(); stack.pop_back();
-    std::string pos2 = stack.back(); stack.pop_back();
+//     std::string pos1 = stack.back(); stack.pop_back();
+//     std::string pos2 = stack.back(); stack.pop_back();
 
-    std::pair<int, int> c1 = converter(pos1);
-    std::pair<int, int> c2 = converter(pos2);
+//     std::pair<int, int> c1 = converter(pos1);
+//     std::pair<int, int> c2 = converter(pos2);
 
-    b.swap(c1.first, c1.second, c2.first, c2.second);
-    b.write(c1.first, c1.second, p);
+//     b.swap(c1.first, c1.second, c2.first, c2.second);
+//     b.write(c1.first, c1.second, p);
 
-    if (c2.first == 1 || c2.first == 6) {
-        b.get(c2.first, c2.second)->setEP(false);
-    }
-}
+//     if (c2.first == 1 || c2.first == 6) {
+//         b.get(c2.first, c2.second)->setEP(false);
+//     }
+// }
 
 void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
@@ -50,18 +50,18 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
 
     // And then undo the move if it results in a Check.
 
-    if (moved) {
-        stack.push_back(pos1);
-        stack.push_back(pos2);
+    // if (moved) {
+    //     stack.push_back(pos1);
+    //     stack.push_back(pos2);
 
-        if (b.wjail().size() != wSize) {
-            stack.push_back("CB");
-        }
+    //     if (b.wjail().size() != wSize) {
+    //         stack.push_back("CB");
+    //     }
 
-        if (b.bjail().size() != bSize) {
-            stack.push_back("CW");
-        }
-    }
+    //     if (b.bjail().size() != bSize) {
+    //         stack.push_back("CW");
+    //     }
+    // }
 }
 
 std::pair<int, int> Game::converter(const std::string& notation) {

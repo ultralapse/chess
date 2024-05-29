@@ -15,7 +15,7 @@ int main(int argc, char **argv) {
         if (argc == 3) {
             std::string str = argv[2];
             if (str == "RESET") g.reset();
-            if (str == "UNDO") g.undo();
+            // if (str == "UNDO") g.undo();
         }
 
         if (argc > 3) g.move(argv[2], argv[3]);
