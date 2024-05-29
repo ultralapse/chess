@@ -43,8 +43,12 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
 
-    // unsigned int wSize = b.wjail().size();
-    // unsigned int bSize = b.bjail().size();
+    // If stalemate or checkmate, print "Game has ended"
+
+    // See if there's legal moves
+
+    // If no legal moves && already in check = checkmate. Flip flag.
+    // If no legal moves && not in check = stalemate. Flip flag.
 
     // Make sure the player is moving the right piece.
     if (turn && b.get(c1.first, c1.second)->color() != White) {
@@ -57,9 +61,24 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
         return;
     }
 
+    // Make a copy of the board
+    // Perform Move
+    // Check if it results in a check
+
+    // If check and player is already in check, print "You're in check"
+    // If check and player not in check, print "You cannot move your piece into check."
+
+    // If not check, replace old board with new board
+
+    // Now check for opponent check and flip flag if necessary
+
+
     b.move(c1.first, c1.second, c2.first, c2.second);
 
-    // And then undo the move if it results in a Check.
+    // Old undoing code.
+    // unsigned int wSize = b.wjail().size();
+    // unsigned int bSize = b.bjail().size();
+
 
     // if (moved) {
     //     stack.push_back(pos1);
