@@ -154,11 +154,9 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
     if (changeRow == 0 && changeCol > 0) {
         for (int i = col + 1; i < dCol; i++) {
             if (_board[row][i] != nullptr) {
-                // std::cout << "RL-Branch Taken" << std::endl;
                 return true;
             }
         }
-        // std::cout << "RL-Branch NOT Taken" << std::endl;
         return false;
     }
 
@@ -166,11 +164,9 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
     if (changeRow == 0 && changeCol < 0) {
         for (int i = col - 1; i > dCol; i--) {
             if (_board[row][i] != nullptr) {
-                // std::cout << "LL-Branch Taken" << std::endl;
                 return true;
             }
         }
-        // std::cout << "LL-Branch NOT Taken" << std::endl;
         return false;
     }
 
