@@ -60,6 +60,24 @@ bool Board::move(int row, int col, int dRow, int dCol) {
             std::cout << "Invalid Piece Movement. Please refer to the rules" << std::endl;
             return false;
         }
+
+        // En Passant
+        if (_board[3][dCol] != nullptr || _board[4][dCol] != nullptr) {
+            if (row == 4 && _board[row][col]->color() == Black) {
+                if (_board[4][dCol]->type() == P && _board[4][dCol]->color() == White) {
+                    _bjail.push_back(_board[4][dCol]);
+                    _board[4][dCol] = nullptr;
+                }
+            }
+
+            if (row == 3 && _board[row][col]->color() == White) {
+                if (_board[3][dCol]->type() == P && _board[3][dCol]->color() == Black) {
+                    _wjail.push_back(_board[3][dCol]);
+                    _board[3][dCol] = nullptr;
+                }
+            }
+        }
+
     } else {
         if (!_board[row][col]->move(row, col, dRow, dCol)) {
             std::cout << "Invalid Piece Movement. Please refer to the rules" << std::endl;
@@ -222,18 +240,9 @@ bool Board::obstruction(int row, int col, int dRow, int dCol) {
 void Board::clear() {
     for (unsigned int i = 0; i < _board.size(); i++) {
         for (unsigned int j = 0; j < _board.size(); j++) {
-            // delete _board[i][j];
             _board[i][j] = nullptr;
         }
     }
-
-    // for (unsigned int i = 0; i < _wjail.size(); i++) {
-    //     delete _wjail[i];
-    // }
-
-    // for (unsigned int i = 0; i < _bjail.size(); i++) {
-    //     delete _bjail[i];
-    // }
 }
 
 Board& Board::operator=(Board&& other) noexcept {
