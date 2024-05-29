@@ -31,9 +31,9 @@ bool Pawn::move(int row, int col, int dRow, int dCol,
     }
 
     // Make sure that the move is 1 unit
-    if (abs(cRow) > 1 || abs(cCol) > 1) return false;
-
-    if (abs(cCol) == 1 && abs(cRow) != 1) return false;
+    if (abs(cRow) > 1 || abs(cCol) > 1) {
+        return false;
+    }
 
     switch (color()) {
         case White:

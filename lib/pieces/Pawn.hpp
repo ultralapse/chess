@@ -15,7 +15,6 @@ class Pawn: public Piece {
     }
 
     virtual bool ep() {return _ep;}
-    virtual void setEP(bool ep) {_ep = ep;}
 
     virtual bool move(int row, int col, int dRow, int dCol,
                       std::vector<std::vector<std::shared_ptr<Piece>>> board);
