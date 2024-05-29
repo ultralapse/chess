@@ -43,10 +43,21 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
 
-    unsigned int wSize = b.wjail().size();
-    unsigned int bSize = b.bjail().size();
+    // unsigned int wSize = b.wjail().size();
+    // unsigned int bSize = b.bjail().size();
 
-    bool moved = b.move(c1.first, c1.second, c2.first, c2.second);
+    // Make sure the player is moving the right piece.
+    if (turn && b.get(c1.first, c1.second)->color() != White) {
+        std::cout << "It's White's Turn." << std::endl;
+        return;
+    }
+
+    if (!turn && b.get(c1.first, c1.second)->color() != Black) {
+        std::cout << "It Black's Turn." << std::endl;
+        return;
+    }
+
+    b.move(c1.first, c1.second, c2.first, c2.second);
 
     // And then undo the move if it results in a Check.
 
@@ -62,6 +73,8 @@ void Game::move(const std::string &pos1, const std::string &pos2) {
     //         stack.push_back("CW");
     //     }
     // }
+
+    turn = !turn;
 }
 
 std::pair<int, int> Game::converter(const std::string& notation) {
@@ -188,12 +201,14 @@ void Game::save() {
 
     file << "\n";
 
-    file << stack.size() << ' ';
+    file << turn;
+
+    // file << stack.size() << ' ';
 
 
-    for (std::string s : stack) {
-        file << s << ' ';
-    }
+    // for (std::string s : stack) {
+    //     file << s << ' ';
+    // }
 
     // Close the file
     file.close();
@@ -308,14 +323,16 @@ void Game::load() {
         }
     }
 
-    int total;
-    file >> total;
+    file >> turn;
 
-    for (int i = 0; i < total; i++) {
-        std::string s;
-        file >> s;
-        stack.push_back(s);
-    }
+    // int total;
+    // file >> total;
+
+    // for (int i = 0; i < total; i++) {
+    //     std::string s;
+    //     file >> s;
+    //     stack.push_back(s);
+    // }
 
     // Close the file
     file.close();
