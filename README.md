@@ -4,14 +4,13 @@ The project is a work in progress. Right now the main focus is to get the core g
 
 ## Status
 The core mechanics of the game have not completed. Namely these features are not present.
-1. En Passant
-2. Castling
-3. Endgame (Check, Checkmate, and Stalemate)
+1. Castling
+2. Endgame (Check, Checkmate, and Stalemate)
 
 Like most other Chess implementations, these are fully supported:
 1. Loading/Saving Games
 2. Piece movement
-3. Piece capturing
+3. Piece capturing (including En Passant)
 
 In the future, there will be support for
 1. A Terminal UI served over SSH via the project Wish by Charm.sh
