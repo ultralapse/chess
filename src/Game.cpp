@@ -3,97 +3,56 @@
 #include "Game.hpp"
 #include <fstream>
 
-
-// void Game::undo() {
-//     if (stack.empty()) {
-//         std::cout << "You have not made a move" << std::endl;
-//         return;
-//     }
-
-//     std::shared_ptr<Piece> p = nullptr;
-
-
-//     if (stack.back() == "CB") {
-//         p = b.wjail().back();
-//         b.wjail().pop_back();
-//         stack.pop_back();
-//     }
-
-//     if (stack.back() == "CW") {
-//         p = b.bjail().back();
-//         b.bjail().pop_back();
-//         stack.pop_back();
-//     }
-
-//     std::string pos1 = stack.back(); stack.pop_back();
-//     std::string pos2 = stack.back(); stack.pop_back();
-
-//     std::pair<int, int> c1 = converter(pos1);
-//     std::pair<int, int> c2 = converter(pos2);
-
-//     b.swap(c1.first, c1.second, c2.first, c2.second);
-//     b.write(c1.first, c1.second, p);
-
-//     if (c2.first == 1 || c2.first == 6) {
-//         b.get(c2.first, c2.second)->setEP(false);
-//     }
-// }
-
 void Game::move(const std::string &pos1, const std::string &pos2) {
+    // Convert Chess Notation to Board Notation
     std::pair<int, int> c1 = converter(pos1);
     std::pair<int, int> c2 = converter(pos2);
 
-    // If stalemate or checkmate, print "Game has ended"
+    /***************************************************************************
 
-    // See if there's legal moves
+    Checking for Endgame:
+    If stalemate or checkmate, return
 
-    // If no legal moves && already in check = checkmate. Flip flag.
-    // If no legal moves && not in check = stalemate. Flip flag.
+    Detecting Endgame:
+    If no legal moves && already in check = checkmate. Flip checkmate flag.
+    If no legal moves && not in check = stalemate. Flip stalemate flag.
+
+    ****************************************************************************/
 
     // Make sure the player is moving the right piece.
-    if (turn && b.get(c1.first, c1.second)->color() != White) {
-        std::cout << "It's White's Turn." << std::endl;
-        return;
+    if (b.get(c1.first, c2.second) != nullptr) {
+        if (turn && b.get(c1.first, c1.second)->color() != White) {
+            std::cout << "It's White's Turn." << std::endl;
+            return;
+        }
+
+        if (!turn && b.get(c1.first, c1.second)->color() != Black) {
+            std::cout << "It Black's Turn." << std::endl;
+            return;
+        }
     }
 
-    if (!turn && b.get(c1.first, c1.second)->color() != Black) {
-        std::cout << "It Black's Turn." << std::endl;
-        return;
-    }
+    /********************************************************************************************
 
-    // Make a copy of the board
-    // Perform Move
-    // Check if it results in a check
+    Moving Techniques:
+    Copy the board, and move the piece in the copied board
+    See if the board will result in a check through calling the board's check function
 
-    // If check and player is already in check, print "You're in check"
-    // If check and player not in check, print "You cannot move your piece into check."
+    Check is Detected:
+    if already in check, print "You're in Check"
+    if not already in check, print "You cannot move your piece into check"
+    
+    Check is not detected:
+    Replace old board with new copied board.
 
-    // If not check, replace old board with new board
+    Run the check function for the opponent and flip the check flag for the opponent if necessary
 
-    // Now check for opponent check and flip flag if necessary
+    ********************************************************************************************/
 
+    bool moved = b.move(c1.first, c1.second, c2.first, c2.second);
 
-    b.move(c1.first, c1.second, c2.first, c2.second);
-
-    // Old undoing code.
-    // unsigned int wSize = b.wjail().size();
-    // unsigned int bSize = b.bjail().size();
-
-
-    // if (moved) {
-    //     stack.push_back(pos1);
-    //     stack.push_back(pos2);
-
-    //     if (b.wjail().size() != wSize) {
-    //         stack.push_back("CB");
-    //     }
-
-    //     if (b.bjail().size() != bSize) {
-    //         stack.push_back("CW");
-    //     }
-    // }
-
-    turn = !turn;
+    // Switch Turns
+    if (moved) turn = !turn;
 }
 
 std::pair<int, int> Game::converter(const std::string& notation) {
